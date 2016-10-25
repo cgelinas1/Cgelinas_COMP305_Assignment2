@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour {
     // Public Instance Variables
     public float Velocity = 10f;
     public float JumpForce = 100f;
+    public Transform SpawnPoint;
+
 
     //public Camera camera;
 
@@ -105,7 +107,19 @@ public class PlayerController : MonoBehaviour {
        
     }
 
-     private void OnCollisionStay2D(Collision2D other)
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("DeathPlane"))
+        {
+            // move the player's position to the spawn point's position
+            this._transform.position = this.SpawnPoint.position;
+            //this.DeathSound.Play(); ADD DEATH SOUND AFTER DEATHPLANE COLLISION
+        }
+    }
+
+
+
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag ("Platform"))
         {
