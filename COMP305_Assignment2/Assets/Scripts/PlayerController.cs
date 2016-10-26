@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour {
     [Header("Sounds")]
     public AudioSource JumpSound;
     public AudioSource DeathSound;
+    public AudioSource BananaSound;
+    public AudioSource HurtSound;
 
     //public Camera camera;
 
@@ -117,6 +119,21 @@ public class PlayerController : MonoBehaviour {
             // move the player's position to the spawn point's position
             this._transform.position = this.SpawnPoint.position;
             this.DeathSound.Play(); 
+        }
+
+        if (other.gameObject.CompareTag("Banana"))
+        {
+            Destroy(other.gameObject);
+            this.BananaSound.Play();
+            
+        }
+
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            // move the player's position to the spawn point's position
+            this._transform.position = this.SpawnPoint.transform.position;
+            this.HurtSound.Play();
+            
         }
     }
 
