@@ -4,14 +4,13 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     /*
-    Assignment 2 - Chris Gelinas - 300844877 - Date of Modifaction Oct 24, 2016
-    PlayerController v.2
+    Assignment 2 - Chris Gelinas - 300844877 - Date of Modifaction Oct 26, 2016
     */
 
 
 
     //PRIVATE INSTANCE VARIABLES\
-    private Transform _transform;
+    public Transform _transform;
     private Rigidbody2D _rigidbody;
     private float _move;
     private float _jump;
@@ -24,6 +23,9 @@ public class PlayerController : MonoBehaviour {
     public float JumpForce = 100f;
     public Transform SpawnPoint;
 
+    [Header("Sounds")]
+    public AudioSource JumpSound;
+    public AudioSource DeathSound;
 
     //public Camera camera;
 
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 this._jump = 1f;
+                this.JumpSound.Play();
 
             }
 
@@ -113,7 +116,7 @@ public class PlayerController : MonoBehaviour {
         {
             // move the player's position to the spawn point's position
             this._transform.position = this.SpawnPoint.position;
-            //this.DeathSound.Play(); ADD DEATH SOUND AFTER DEATHPLANE COLLISION
+            this.DeathSound.Play(); 
         }
     }
 
