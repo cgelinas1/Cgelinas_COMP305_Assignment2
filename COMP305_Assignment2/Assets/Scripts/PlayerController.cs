@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour {
     private float _jump;
     private bool _isFacingRight; //check if player facing right
     private bool _isGrounded; // check if grounded for falling and jumping
-
+    private GameObject _gameControllerObject;
+    private GameController _gameController;
 
     // Public Instance Variables
     public float Velocity = 10f;
@@ -91,9 +92,12 @@ public class PlayerController : MonoBehaviour {
     public void _initialize() {
 		this._transform = GetComponent<Transform> ();
 		this._rigidbody = GetComponent<Rigidbody2D> ();
-		this._move = 0f;
+        this._gameControllerObject = GameObject.Find("Game Controller");
+        this._gameController = this._gameControllerObject.GetComponent<GameController>() as GameController;
+        this._move = 0f;
         this._isFacingRight = true;
         this._isGrounded = false;
+        
 	}
 
     //method flips characfter's bitmap across x-axis
@@ -118,14 +122,15 @@ public class PlayerController : MonoBehaviour {
         {
             // move the player's position to the spawn point's position
             this._transform.position = this.SpawnPoint.position;
-            this.DeathSound.Play(); 
+            this.DeathSound.Play();
+            this._gameController.LivesValue -= 1;
         }
 
         if (other.gameObject.CompareTag("Banana"))
         {
             Destroy(other.gameObject);
             this.BananaSound.Play();
-            
+            this._gameController.ScoreValue += 1;
         }
 
         if (other.gameObject.CompareTag("Enemy"))
@@ -133,7 +138,7 @@ public class PlayerController : MonoBehaviour {
             // move the player's position to the spawn point's position
             this._transform.position = this.SpawnPoint.transform.position;
             this.HurtSound.Play();
-            
+            this._gameController.LivesValue -= 1;
         }
     }
 
